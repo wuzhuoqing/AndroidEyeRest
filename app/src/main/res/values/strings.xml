@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">AndroidEyeRest</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="close_button">Close</string>
+    <string name="test_button">Test</string>
+    <string name="time_remain">Time\nRemain</string>
+    <string name="second_remain">Second\nRemain</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference -->
+    <string name="preference_title">Time Settings</string>
+    <string name="screen_lock_interval_minutes">Screen on minutes before lock</string>
+    <string name="eye_rest_second">Second to rest during the lock</string>
+    <string name="count_down_refresh_second">Count down refresh seconds during the lock</string>
 </resources>
