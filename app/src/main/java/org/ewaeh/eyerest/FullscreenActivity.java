@@ -5,10 +5,23 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import androidx.preference.PreferenceManager;
+
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -32,8 +45,17 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
+
+    private WindowManager mWindowManager;
+    private View mFloatingWidget;
+
     private final Handler mHideHandler = new Handler();
-    private View mContentView;
+    private TextView mTimeInfoView;
+    private TextView mSecondRemainView;
+    private Button mCloseButton;
+
+    private LockSetting lockSetting;
+
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -43,7 +65,7 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
             // Note that some of these constants are new as of API 16 (Jelly Bean)
             // and API 19 (KitKat). It is safe to use them, as they are inlined
             // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+            mTimeInfoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -97,25 +119,79 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!Settings.canDrawOverlays(this)) {
 
-        setContentView(R.layout.activity_fullscreen);
+
+            //If the draw over permission is not available open the settings screen
+            //to grant the permission.
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, 0);
+        } else {
+            initFullScreenView();
+        }
+    }
+
+    private void initFullScreenView() {
+        // setContentView(R.layout.activity_fullscreen);
+        mFloatingWidget = LayoutInflater.from(this).inflate(R.layout.activity_fullscreen, null);
+        mFloatingWidget.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
+        params.gravity = Gravity.TOP | Gravity.LEFT;
+        params.x = 0;
+        params.y = 0;
+        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        mWindowManager.addView(mFloatingWidget, params);
 
         mVisible = true;
-        mControlsView = findViewById(R.id.bottom_content_controls);
-        mContentView = findViewById(R.id.time_reamain);
-
+        mControlsView = mFloatingWidget.findViewById(R.id.bottom_content_controls);
+        mTimeInfoView = mFloatingWidget.findViewById(R.id.time_info);
+        mSecondRemainView = mFloatingWidget.findViewById(R.id.tvSecondRemain);
+        mCloseButton = mFloatingWidget.findViewById(R.id.close_button);
         // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
-            }
-        });
+//        mContentView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                toggle();
+//            }
+//        });
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.close_button).setOnTouchListener(mDelayHideTouchListener);
+        // mFloatingWidget.findViewById(R.id.close_button).setOnTouchListener(mDelayHideTouchListener);
+
+        lockSetting = Utils.getLockSetting(this);
+        final String msgTemplate = this.getString(R.string.time_info);
+        @SuppressLint("StringFormatMatches") String message = String.format(msgTemplate, lockSetting.lockMinutes, lockSetting.restSeconds, lockSetting.countDownRefreshSecond);
+        mTimeInfoView.setText(message);
+
+        final String secondRemainTemplate = this.getString(R.string.second_remain);
+        @SuppressLint("StringFormatMatches") String initSecondRemain = String.format(secondRemainTemplate, lockSetting.restSeconds);
+        mSecondRemainView.setText(initSecondRemain);
+
+        mCloseButton.setText(this.getString(R.string.close_button));
+        mCloseButton.setEnabled(false);
+        CountDownTimer timer = new CountDownTimer(lockSetting.restSeconds * 1000, lockSetting.countDownRefreshSecond * 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                @SuppressLint("StringFormatMatches") String secondRemain = String.format(secondRemainTemplate, millisUntilFinished / 1000);
+                mSecondRemainView.setText(secondRemain);
+            }
+
+            public void onFinish() {
+                @SuppressLint("StringFormatMatches") String secondRemain = String.format(secondRemainTemplate, 0);
+                mSecondRemainView.setText(secondRemain);
+                mCloseButton.setText(FullscreenActivity.this.getString(R.string.close_button_ready));
+                mCloseButton.setEnabled(true);
+            }
+        }.start();
     }
 
     @Override
@@ -152,7 +228,7 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
 
     private void show() {
         // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        mTimeInfoView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         mVisible = true;
 
@@ -172,6 +248,9 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
+        // start next round
+        AlarmHelper.startAlarm(this, true);
+        mWindowManager.removeView(mFloatingWidget);
         this.finish();
     }
 }

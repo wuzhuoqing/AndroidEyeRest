@@ -5,21 +5,21 @@
 
         <EditTextPreference
             android:defaultValue="20"
-            android:inputType="numberDecimal"
             android:digits="0123456789"
+            android:inputType="number"
             app:key="screen_lock_interval_minutes"
             app:title="@string/screen_lock_interval_minutes"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="30"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:digits="0123456789"
             app:key="eye_rest_second"
             app:title="@string/eye_rest_second"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="1"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:digits="0123456789"
             app:key="count_down_refresh_second"
             app:title="@string/count_down_refresh_second"

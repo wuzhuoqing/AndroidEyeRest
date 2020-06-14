@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">AndroidEyeRest</string>
-    <string name="close_button">Close</string>
+    <string name="close_button">Cannot Close Yet</string>
+    <string name="close_button_ready">Ready To Close</string>
     <string name="test_button">Test</string>
-    <string name="time_remain">Time\nRemain</string>
-    <string name="second_remain">Second\nRemain</string>
+    <string name="time_info">After %s minutes Please Look 20 feets away for %s seconds. Refresh %s seconds</string>
+    <string name="second_remain">%s Seconds Remain</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference -->
