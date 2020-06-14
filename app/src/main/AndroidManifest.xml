@@ -13,8 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".AlertHandlerIntentService"
+            android:name=".FullscreenService"
+            android:enabled="true"
             android:exported="false"></service>
+        <service
+            android:name=".AlertHandlerIntentService"
+            android:exported="false" />
 
         <activity
             android:name=".SettingsActivity"

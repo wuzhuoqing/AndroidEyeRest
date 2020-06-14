@@ -6,15 +6,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import androidx.preference.PreferenceManager;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,7 +26,8 @@ import android.widget.TextView;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class FullscreenActivity extends AppCompatActivity implements View.OnClickListener {
+public class FullscreenActivity extends AppCompatActivity {
+    private static final String Log_Tag = FullscreenActivity.class.getSimpleName();
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -169,7 +169,7 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
 
         lockSetting = Utils.getLockSetting(this);
         final String msgTemplate = this.getString(R.string.time_info);
-        @SuppressLint("StringFormatMatches") String message = String.format(msgTemplate, lockSetting.lockMinutes, lockSetting.restSeconds, lockSetting.countDownRefreshSecond);
+        @SuppressLint("StringFormatMatches") String message = String.format(msgTemplate, String.format("%.1f", lockSetting.lockSeconds / 60.0), lockSetting.restSeconds, lockSetting.countDownRefreshSecond);
         mTimeInfoView.setText(message);
 
         final String secondRemainTemplate = this.getString(R.string.second_remain);
@@ -178,6 +178,17 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
 
         mCloseButton.setText(this.getString(R.string.close_button));
         mCloseButton.setEnabled(false);
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // start next round
+                Log.d(Log_Tag, "finish clicked start next round");
+                AlarmHelper.startLockTriggerAlarm(FullscreenActivity.this);
+                mWindowManager.removeView(mFloatingWidget);
+                FullscreenActivity.this.finish();
+            }
+        });
+
         CountDownTimer timer = new CountDownTimer(lockSetting.restSeconds * 1000, lockSetting.countDownRefreshSecond * 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -244,13 +255,5 @@ public class FullscreenActivity extends AppCompatActivity implements View.OnClic
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
-    }
-
-    @Override
-    public void onClick(View view) {
-        // start next round
-        AlarmHelper.startAlarm(this, true);
-        mWindowManager.removeView(mFloatingWidget);
-        this.finish();
     }
 }

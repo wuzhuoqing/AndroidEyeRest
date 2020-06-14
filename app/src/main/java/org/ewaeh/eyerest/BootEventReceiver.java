@@ -14,7 +14,7 @@ public class BootEventReceiver extends BroadcastReceiver {
         Log.d(Log_Tag, "BootEventReceiver Getting Intent");
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.d(Log_Tag, "BOOT_COMPLETED action has been received.");
-            AlarmHelper.startAlarm(context, true);
+            AlarmHelper.startLockTriggerAlarm(context);
         }
     }
 }

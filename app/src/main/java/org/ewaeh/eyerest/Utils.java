@@ -16,24 +16,23 @@ public class Utils {
         }
     }
 
-    public static int getCurrentMinute() {
-        return (int) (System.currentTimeMillis() / 1000 / 60);
-    }
-
-    public static void setLockStartMinute(Context context, int minute) {
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putInt("starting_minute", minute);
+    public static double getDoubleHelper(String num, double defaultNum) {
+        try {
+            return Double.parseDouble(num);
+        }
+        catch (Exception ex) {
+            return defaultNum;
+        }
     }
 
     public static LockSetting getLockSetting(Context context) {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
         LockSetting lockSetting = new LockSetting();
-        lockSetting.lockMinutes = getIntHelper(sharedPreferences.getString("screen_lock_interval_minutes", "21"), 21);
+        lockSetting.lockSeconds = (int) (getDoubleHelper(sharedPreferences.getString("screen_lock_interval_minutes", "21"), 21) * 60 + .5);
         lockSetting.restSeconds = getIntHelper(sharedPreferences.getString("eye_rest_second", "31"), 31);
         lockSetting.countDownRefreshSecond = getIntHelper(sharedPreferences.getString("count_down_refresh_second", "11"), 11);
-        lockSetting.startingMinute = sharedPreferences.getInt("starting_minute", 0);
+        // lockSetting.startingLockCheckTime = sharedPreferences.getLong("starting_lock_check", 0);
         return lockSetting;
     }
 }

@@ -68,14 +68,15 @@ public class AlertHandlerIntentService extends IntentService {
 //                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
 //                handleActionBaz(param1, param2);
 //            }
+            final String alarmExtra = intent.getStringExtra(AlarmHelper.EXTRA_PARAM_SOURCE);
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             if (pm.isInteractive()) {
                 Log.d(Log_Tag, "onHandleIntent lock screen");
-                Intent lockScreenIntent = new Intent(this, FullscreenActivity.class);
-                startActivity(intent);
+                Intent lockScreenIntent = new Intent(this, FullscreenService.class);
+                startForegroundService(lockScreenIntent);
             } else {
                 Log.d(Log_Tag, "isInteractive false. just schedule next one");
-                AlarmHelper.startAlarm(this, true);
+                AlarmHelper.startLockTriggerAlarm(this);
             }
         }
     }

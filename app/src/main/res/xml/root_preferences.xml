@@ -5,8 +5,6 @@
 
         <EditTextPreference
             android:defaultValue="20"
-            android:digits="0123456789"
-            android:inputType="number"
             app:key="screen_lock_interval_minutes"
             app:title="@string/screen_lock_interval_minutes"
             app:useSimpleSummaryProvider="true" />

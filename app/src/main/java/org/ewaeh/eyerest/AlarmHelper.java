@@ -9,29 +9,21 @@ import android.util.Log;
 
 public class AlarmHelper {
     private static final String Log_Tag = AlarmHelper.class.getSimpleName();
+    public static final String EXTRA_PARAM_SOURCE = "org.ewaeh.eyerest.extra.SOURCE";
 
-    public static void startAlarm(Context context, boolean restartNew) {
+    public static void startLockTriggerAlarm(Context context) {
         LockSetting lockSetting = Utils.getLockSetting(context);
-        int remainMinute = lockSetting.lockMinutes;
-        int currentMinute = Utils.getCurrentMinute();
-        if (!restartNew) {
-            remainMinute = lockSetting.lockMinutes - (currentMinute - lockSetting.startingMinute);
-            if (remainMinute < 0) {
-                remainMinute = 0;
-            }
-        } else {
-            // set a new start minute
-            Log.d(Log_Tag, "setLockStartMinute to " + currentMinute);
-            Utils.setLockStartMinute(context, currentMinute);
-        }
+        // set a new start minute
 
-        Log.d(Log_Tag, "startAlarm next minute " + remainMinute);
-        final long beginAt = SystemClock.elapsedRealtime() + remainMinute * 60 * 1000;
+        Log.d(Log_Tag, "startAlarm in next " + lockSetting.lockSeconds + " seconds");
+        final long beginAt = SystemClock.elapsedRealtime() + lockSetting.lockSeconds * 1000;
 
         try {
             AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, AlertHandlerIntentService.class);
-            PendingIntent pIntent = PendingIntent.getService(context, 0, intent, 0);
+            intent.putExtra(EXTRA_PARAM_SOURCE, "AlarmHelper");
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            PendingIntent pIntent = PendingIntent.getForegroundService(context, 0, intent, 0);
             alarm.set(AlarmManager.ELAPSED_REALTIME, beginAt, pIntent);
             Log.d(Log_Tag, "Alarm has been configured successfully");
         } catch (Exception e) {
