@@ -23,22 +23,28 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     Uri.parse("package:" + getPackageName()));
             startActivityForResult(intent, 0);
         } else {
-            setContentView(R.layout.settings_activity);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
-                    .commit();
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            initView();
+        }
+    }
+
+    private void initView() {
+        setContentView(R.layout.settings_activity);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings, new SettingsFragment())
+                .commit();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this, FullscreenService.class);
-        startService(intent);
+        startForegroundService(intent);
+//        Intent intent = new Intent(this, FullscreenActivity.class);
+//        startActivity(intent);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
