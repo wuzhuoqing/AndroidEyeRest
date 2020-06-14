@@ -35,8 +35,8 @@ public class FullscreenService extends Service {
         Intent fullScreenIntent = new Intent(this, FullscreenActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, fullScreenIntent, 0);
 
-        String NOTIFICATION_CHANNEL_ID = "com.currency.usdtoinr";
-        String channelName = "My Background Service";
+        String NOTIFICATION_CHANNEL_ID = getPackageName();
+        String channelName = this.getString(R.string.channel_name);
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
         chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
@@ -46,7 +46,7 @@ public class FullscreenService extends Service {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         Notification notification = notificationBuilder.setOngoing(true)
-                //.setSmallIcon(R.drawable.nicon)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("")
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
                 .setCategory(Notification.CATEGORY_SERVICE)

@@ -169,7 +169,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         lockSetting = Utils.getLockSetting(this);
         final String msgTemplate = this.getString(R.string.time_info);
-        @SuppressLint("StringFormatMatches") String message = String.format(msgTemplate, String.format("%.1f", lockSetting.lockSeconds / 60.0), lockSetting.restSeconds, lockSetting.countDownRefreshSecond);
+        @SuppressLint("StringFormatMatches") String message = String.format(msgTemplate, String.format("%.1f", lockSetting.lockSeconds / 60.0), lockSetting.eyeLookAwayNum, lockSetting.restSeconds, lockSetting.countDownRefreshSecond);
         mTimeInfoView.setText(message);
 
         final String secondRemainTemplate = this.getString(R.string.second_remain);

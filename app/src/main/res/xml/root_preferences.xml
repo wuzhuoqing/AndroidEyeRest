@@ -16,6 +16,13 @@
             app:title="@string/eye_rest_second"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
+            android:defaultValue="20"
+            android:inputType="number"
+            android:digits="0123456789"
+            app:key="eye_look_alway_num"
+            app:title="@string/eye_look_alway_num"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
             android:defaultValue="1"
             android:inputType="number"
             android:digits="0123456789"
