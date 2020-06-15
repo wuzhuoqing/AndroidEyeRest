@@ -15,8 +15,13 @@ public class AlarmHelper {
         LockSetting lockSetting = Utils.getLockSetting(context);
         // set a new start minute
 
-        Log.d(Log_Tag, "startLockTriggerAlarm in next " + lockSetting.lockSeconds + " seconds");
-        final long beginAt = SystemClock.elapsedRealtime() + lockSetting.lockSeconds * 1000;
+        Log.d(Log_Tag, "startLockTriggerAlarm in next " + lockSetting.lockIntervalSeconds + " seconds");
+        if (lockSetting.lockIntervalSeconds <= 0) {
+            Log.d(Log_Tag, "not starting startLockTriggerAlarm");
+            return;
+        }
+
+        final long beginAt = SystemClock.elapsedRealtime() + lockSetting.lockIntervalSeconds * 1000;
 
         try {
             AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -28,7 +33,7 @@ public class AlarmHelper {
             alarm.set(AlarmManager.ELAPSED_REALTIME, beginAt, pIntent);
             Log.d(Log_Tag, "Alarm has been configured successfully");
         } catch (Exception e) {
-            Log.d(Log_Tag, "an exception has ocurred while setting the Alarm...");
+            Log.d(Log_Tag, "an exception has occurred while setting the Alarm...");
             e.printStackTrace();
         }
     }

@@ -29,10 +29,12 @@ public class Utils {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
         LockSetting lockSetting = new LockSetting();
-        lockSetting.lockSeconds = (int) (getDoubleHelper(sharedPreferences.getString("screen_lock_interval_minutes", "21"), 21) * 60 + .5);
+        lockSetting.lockIntervalSeconds = (int) (getDoubleHelper(sharedPreferences.getString("screen_lock_interval_minutes", "21"), 21) * 60 + .5);
         // hack don't allow less than 5 second lock
-        if (lockSetting.lockSeconds < 5) {
-            lockSetting.lockSeconds = 5;
+        if (lockSetting.lockIntervalSeconds <= 0) {
+            lockSetting.lockIntervalSeconds = 0;
+        } else if (lockSetting.lockIntervalSeconds < 5) {
+            lockSetting.lockIntervalSeconds = 5;
         }
         lockSetting.restSeconds = getIntHelper(sharedPreferences.getString("eye_rest_second", "31"), 31);
         lockSetting.countDownRefreshSecond = getIntHelper(sharedPreferences.getString("count_down_refresh_second", "11"), 11);
