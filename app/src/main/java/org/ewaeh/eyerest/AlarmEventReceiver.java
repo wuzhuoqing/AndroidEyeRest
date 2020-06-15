@@ -3,6 +3,7 @@ package org.ewaeh.eyerest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
 
@@ -19,7 +20,11 @@ public class AlarmEventReceiver extends BroadcastReceiver {
             if (pm.isInteractive()) {
                 Log.d(Log_Tag, "onHandleIntent lock screen");
                 Intent lockScreenIntent = new Intent(context, FullscreenService.class);
-                context.startForegroundService(lockScreenIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(lockScreenIntent);
+                } else {
+                    context.startService(lockScreenIntent);
+                }
             } else {
                 Log.d(Log_Tag, "isInteractive false. just schedule next one");
                 AlarmHelper.startLockTriggerAlarm(context);

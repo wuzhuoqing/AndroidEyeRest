@@ -33,6 +33,7 @@ public class Utils {
         lockSetting.restSeconds = getIntHelper(sharedPreferences.getString("eye_rest_second", "31"), 31);
         lockSetting.countDownRefreshSecond = getIntHelper(sharedPreferences.getString("count_down_refresh_second", "11"), 11);
         lockSetting.eyeLookAwayNum = getIntHelper(sharedPreferences.getString("eye_look_alway_num", "20"), 21);
+        lockSetting.customReminder = sharedPreferences.getString("custom_reminder_string", "");
         // lockSetting.startingLockCheckTime = sharedPreferences.getLong("starting_lock_check", 0);
         return lockSetting;
     }

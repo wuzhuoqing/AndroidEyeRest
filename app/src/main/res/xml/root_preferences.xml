@@ -23,11 +23,16 @@
             app:title="@string/eye_look_alway_num"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="1"
+            android:defaultValue="10"
             android:inputType="number"
             android:digits="0123456789"
             app:key="count_down_refresh_second"
             app:title="@string/count_down_refresh_second"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue=""
+            app:key="custom_reminder_string"
+            app:title="@string/custom_reminder_string"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

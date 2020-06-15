@@ -5,5 +5,6 @@ public class LockSetting {
     public int restSeconds;
     public int countDownRefreshSecond;
     public int eyeLookAwayNum;
+    public String customReminder;
     // public long startingLockCheckTime;
 }
