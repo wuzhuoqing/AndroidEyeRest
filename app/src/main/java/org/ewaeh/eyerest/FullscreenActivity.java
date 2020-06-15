@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
@@ -56,6 +57,8 @@ public class FullscreenActivity extends AppCompatActivity {
     private Button mCloseButton;
 
     private LockSetting lockSetting;
+    private ScreenOnReceiver mScreenOnReceiver;
+    private boolean finishLockCalled;
 
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -189,12 +192,16 @@ public class FullscreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // start next round
-                Log.d(Log_Tag, "finish clicked start next round");
-                AlarmHelper.startLockTriggerAlarm(FullscreenActivity.this);
-                mWindowManager.removeView(mFloatingWidget);
-                FullscreenActivity.this.finish();
+                Log.d(Log_Tag, "finish button clicked start next round");
+                FullscreenActivity.this.finishLock();
             }
         });
+
+        mScreenOnReceiver = new ScreenOnReceiver(this);
+        finishLockCalled = false;
+        IntentFilter screenStateFilter = new IntentFilter();
+        screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mScreenOnReceiver, screenStateFilter);
 
         CountDownTimer timer = new CountDownTimer(lockSetting.restSeconds * 1000, lockSetting.countDownRefreshSecond * 1000) {
 
@@ -210,6 +217,25 @@ public class FullscreenActivity extends AppCompatActivity {
                 mCloseButton.setEnabled(true);
             }
         }.start();
+    }
+
+    public void onScreenOn() {
+        Log.d(Log_Tag, "onScreenOn callback");
+        if (!finishLockCalled) {
+            if (mCloseButton.isEnabled()) {
+                Log.d(Log_Tag, "onScreenOn callback finishLock");
+                finishLock();
+            }
+        }
+    }
+
+    private void finishLock() {
+        Log.d(Log_Tag, "finish lock start next round alarm");
+        finishLockCalled = true;
+        unregisterReceiver(mScreenOnReceiver);
+        AlarmHelper.startLockTriggerAlarm(FullscreenActivity.this);
+        mWindowManager.removeView(mFloatingWidget);
+        FullscreenActivity.this.finish();
     }
 
     @Override

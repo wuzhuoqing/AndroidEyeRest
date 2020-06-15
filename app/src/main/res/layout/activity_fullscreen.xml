@@ -35,7 +35,7 @@
 
 		<Button
 			android:id="@+id/close_button"
-			style="?metaButtonBarButtonStyle"
+			style="@style/Widget.AppCompat.Button"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
