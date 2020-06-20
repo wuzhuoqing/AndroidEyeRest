@@ -10,6 +10,7 @@
     <string name="title_activity_settings">EyeRestLock</string>
     <string name="tv_overlay_info">We need draw over other app permission to start from background and block the screen.</string>
     <string name="goto_overlay_perm_button">Go to settings</string>
+    <string name="credit_thanks">Credit and Thanks: Icon made by Freepik from www.flaticon.com</string>
 
     <!-- Preference -->
     <string name="preference_title">Time Settings</string>

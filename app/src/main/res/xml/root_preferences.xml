@@ -9,7 +9,7 @@
             app:title="@string/screen_lock_interval_minutes"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
-            android:defaultValue="30"
+            android:defaultValue="20"
             android:inputType="number"
             android:digits="0123456789"
             app:key="eye_rest_second"
