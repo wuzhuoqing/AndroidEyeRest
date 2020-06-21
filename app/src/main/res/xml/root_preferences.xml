@@ -10,22 +10,22 @@
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="20"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
             app:key="eye_rest_second"
             app:title="@string/eye_rest_second"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="20"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
             app:key="eye_look_alway_num"
             app:title="@string/eye_look_alway_num"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="10"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
             app:key="count_down_refresh_second"
             app:title="@string/count_down_refresh_second"
             app:useSimpleSummaryProvider="true" />
@@ -36,5 +36,4 @@
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>

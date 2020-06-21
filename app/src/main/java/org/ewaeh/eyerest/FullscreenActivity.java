@@ -192,10 +192,13 @@ public class FullscreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // start next round
-                Log.d(Log_Tag, "finish button clicked start next round");
+                Log.v(Log_Tag, "finish button clicked start next round");
                 FullscreenActivity.this.finishLock();
             }
         });
+
+        // cancel any existing alarm
+        AlarmHelper.cancelLockTriggerAlarm(this);
 
         mScreenOnReceiver = new ScreenOnReceiver(this);
         finishLockCalled = false;
@@ -220,17 +223,17 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void onScreenOn() {
-        Log.d(Log_Tag, "onScreenOn callback");
+        Log.v(Log_Tag, "onScreenOn callback");
         if (!finishLockCalled) {
             if (mCloseButton.isEnabled()) {
-                Log.d(Log_Tag, "onScreenOn callback finishLock");
+                Log.v(Log_Tag, "onScreenOn callback finishLock");
                 finishLock();
             }
         }
     }
 
     private void finishLock() {
-        Log.d(Log_Tag, "finish lock start next round alarm");
+        Log.v(Log_Tag, "finish lock start next round alarm");
         finishLockCalled = true;
         unregisterReceiver(mScreenOnReceiver);
         AlarmHelper.startLockTriggerAlarm(FullscreenActivity.this);

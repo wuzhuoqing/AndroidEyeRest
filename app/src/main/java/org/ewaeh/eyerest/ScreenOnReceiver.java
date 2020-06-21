@@ -17,9 +17,9 @@ public class ScreenOnReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // assumes WordService is a registered service
-        Log.d(Log_Tag, "ScreenOnReceiver Getting Intent");
+        Log.v(Log_Tag, "ScreenOnReceiver Getting Intent");
         if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
-            Log.d(Log_Tag, "ScreenOnReceiver action has been received.");
+            Log.v(Log_Tag, "ScreenOnReceiver action has been received.");
             if (parent != null) {
                 parent.onScreenOn();
             }
