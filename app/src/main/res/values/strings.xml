@@ -13,7 +13,7 @@
     <string name="title_activity_settings">Eye Rest Lock</string>
     <string name="tv_overlay_info">We need draw over other app permission to start from background and block the screen.</string>
     <string name="goto_overlay_perm_button">Go to settings</string>
-    <string name="credit_thanks">Credit and Thanks: Icon made by Freepik from www.flaticon.com</string>
+    <string name="credit_thanks">Icon made by Freepik from www.flaticon.com</string>
 
     <!-- Preference -->
     <string name="preference_title">Time Settings</string>
@@ -21,7 +21,7 @@
     <string name="eye_rest_second">Second to rest during the lock</string>
     <string name="eye_look_alway_num">Distance to look away in reminder</string>
     <string name="count_down_refresh_second">Count down refresh seconds during the lock</string>
-    <string name="title_activity_credit_setting">Credit and Thanks</string>
+    <string name="title_activity_credit_setting">Credits and Thanks</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
