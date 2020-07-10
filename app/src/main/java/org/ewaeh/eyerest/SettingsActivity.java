@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         if (!Settings.canDrawOverlays(this)) {
-            gotoOverlayPermSetting();
+            // gotoOverlayPermSetting();
         } else {
             mOverlayInfoView.setVisibility(View.GONE);
             mOverlayPermButton.setVisibility(View.GONE);
