@@ -37,7 +37,7 @@
             android:id="@+id/tv_time_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#2196F3"
+            android:textColor="@android:color/primary_text_light"
             android:textSize="24sp" />
     </LinearLayout>
 </FrameLayout>
