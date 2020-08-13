@@ -220,6 +220,12 @@ public class FullscreenActivity extends AppCompatActivity {
                 mCloseButton.setEnabled(true);
             }
         }.start();
+
+        if (lockSetting.useOverlay) {
+            startService(new Intent(this, FloatingWidgetService.class));
+        } else {
+            stopService(new Intent(this, FloatingWidgetService.class));
+        }
     }
 
     public void onScreenOn() {

@@ -6,5 +6,6 @@ public class LockSetting {
     public int countDownRefreshSecond;
     public int eyeLookAwayNum;
     public String customReminder;
+    public boolean useOverlay;
     // public long startingLockCheckTime;
 }

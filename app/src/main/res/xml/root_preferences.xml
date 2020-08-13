@@ -34,6 +34,16 @@
             app:key="custom_reminder_string"
             app:title="@string/custom_reminder_string"
             app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:defaultValue=""
+            app:key="eye_lock_passcode"
+            app:title="@string/eye_lock_passcode"
+            app:useSimpleSummaryProvider="true" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            app:key="eye_look_use_overlay_widget"
+            app:title="@string/eye_look_use_overlay_widget"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 </PreferenceScreen>

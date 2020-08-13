@@ -7,9 +7,12 @@
     <string name="close_settings_button">Close</string>
     <string name="test_button">Test</string>
     <string name="credit_button">Credits</string>
+    <string name="passcode_ok_button">Ok</string>
+    <string name="tv_input_passcode">Please input passcode</string>
     <string name="time_info">After %s minutes Please Look %s feets away for %s seconds. Refresh %s seconds</string>
     <string name="custom_reminder_string">Custom reminder string</string>
     <string name="second_remain">%s Seconds Remain</string>
+    <string name="title_activity_main">Eye Rest Lock</string>
     <string name="title_activity_settings">Eye Rest Lock</string>
     <string name="tv_overlay_info">We need draw over other app permission to start from background and block the screen.</string>
     <string name="goto_overlay_perm_button">Go to settings</string>
@@ -20,6 +23,8 @@
     <string name="screen_lock_interval_minutes">Screen on minutes before lock</string>
     <string name="eye_rest_second">Second to rest during the lock</string>
     <string name="eye_look_alway_num">Distance to look away in reminder</string>
+    <string name="eye_lock_passcode">Pass code</string>
+    <string name="eye_look_use_overlay_widget">Use overlay widget</string>
     <string name="count_down_refresh_second">Count down refresh seconds during the lock</string>
     <string name="title_activity_credit_setting">Credits and Thanks</string>
 

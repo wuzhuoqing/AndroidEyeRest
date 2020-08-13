@@ -10,11 +10,10 @@ public class BootEventReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // assumes WordService is a registered service
-        Log.i(Log_Tag, "BootEventReceiver Getting Intent");
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Log.i(Log_Tag, "BOOT_COMPLETED action has been received.");
             AlarmHelper.startLockTriggerAlarm(context);
+            Log.i(Log_Tag, "BOOT_COMPLETED action has been received.");
         }
+        Log.i(Log_Tag, "BootEventReceiver Getting Intent");
     }
 }

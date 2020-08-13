@@ -25,6 +25,13 @@ public class Utils {
         }
     }
 
+    public static String getLockPasscode(Context context) {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
+        String passcode = sharedPreferences.getString("eye_lock_passcode", "");
+        return passcode;
+    }
+
     public static LockSetting getLockSetting(Context context) {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
@@ -40,6 +47,7 @@ public class Utils {
         lockSetting.countDownRefreshSecond = getIntHelper(sharedPreferences.getString("count_down_refresh_second", "11"), 11);
         lockSetting.eyeLookAwayNum = getIntHelper(sharedPreferences.getString("eye_look_alway_num", "20"), 20);
         lockSetting.customReminder = sharedPreferences.getString("custom_reminder_string", "");
+        lockSetting.useOverlay = sharedPreferences.getBoolean("eye_look_use_overlay_widget", false);
         // lockSetting.startingLockCheckTime = sharedPreferences.getLong("starting_lock_check", 0);
         return lockSetting;
     }
