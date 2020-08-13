@@ -48,6 +48,7 @@ public class AlarmHelper {
             AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             PendingIntent pIntent = getAlarmPendingIntent(context);
             alarm.set(AlarmManager.RTC, beginAt, pIntent);
+            Utils.setNextAlarmTime(context, beginAt);
             Log.v(Log_Tag, "Alarm has been configured successfully");
         } catch (Exception e) {
             Log.e(Log_Tag, "an exception has occurred while setting the Alarm...", e);

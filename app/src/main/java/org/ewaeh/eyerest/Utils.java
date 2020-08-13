@@ -32,6 +32,21 @@ public class Utils {
         return passcode;
     }
 
+    public static long getNextAlarmTime(Context context) {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
+        Long nextAlarmTime = sharedPreferences.getLong("eye_lock_nextAlarm", 0);
+        return nextAlarmTime;
+    }
+
+    public static void setNextAlarmTime(Context context, long nextAlarmTime) {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("eye_lock_nextAlarm", nextAlarmTime);
+        editor.apply();
+    }
+
     public static LockSetting getLockSetting(Context context) {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context /* Activity context */);

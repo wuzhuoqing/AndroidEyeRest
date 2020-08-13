@@ -10,13 +10,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class FloatingWidgetService extends Service {
     private static final String Log_Tag = FloatingWidgetService.class.getSimpleName();
     WindowManager windowManager;
     View floatingView;
     View collapsedView;
+    View expandedView;
     WindowManager.LayoutParams params ;
+    TextView tvTimeLeft;
 
     public FloatingWidgetService() {
     }
@@ -52,6 +55,8 @@ public class FloatingWidgetService extends Service {
         windowManager.addView(floatingView, params);
 
         collapsedView = floatingView.findViewById(R.id.Floating_Layout_Collapsed);
+        expandedView = floatingView.findViewById(R.id.Floating_Layout_Expanded);
+        tvTimeLeft = floatingView.findViewById(R.id.tv_time_left);
 
         collapsedView.setOnTouchListener(new View.OnTouchListener() {
             int X_Axis, Y_Axis;
@@ -69,9 +74,14 @@ public class FloatingWidgetService extends Service {
 
                     case MotionEvent.ACTION_UP:
                         if (TouchX == event.getRawX() && TouchY == event.getRawY()) {
-                            Intent intent = new Intent(FloatingWidgetService.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            if (expandedView.getVisibility() != View.VISIBLE) {
+                                long nextAlarmTime = Utils.getNextAlarmTime(FloatingWidgetService.this);
+                                String timeLeft = "" + ((nextAlarmTime - System.currentTimeMillis()) / 1000) + " second left";
+                                tvTimeLeft.setText(timeLeft);
+                                expandedView.setVisibility(View.VISIBLE);
+                            } else {
+                                expandedView.setVisibility(View.GONE);
+                            }
                         }
                         return true;
 
