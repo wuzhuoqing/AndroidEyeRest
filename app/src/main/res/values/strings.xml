@@ -9,7 +9,7 @@
     <string name="credit_button">Credits</string>
     <string name="passcode_ok_button">Ok</string>
     <string name="tv_input_passcode">Please input passcode</string>
-    <string name="time_info">After %s minutes Please Look %s feets away for %s seconds. Refresh %s seconds</string>
+    <string name="time_info">After %s minutes Please Look %s feets away for %s seconds. Please DO NOT stare at the count down ^_^. This Refreshes every %s seconds. DO NOT look at me.</string>
     <string name="custom_reminder_string">Custom reminder string</string>
     <string name="second_remain">%s Seconds Remain</string>
     <string name="title_activity_main">Eye Rest Lock</string>

@@ -1,7 +1,10 @@
 package org.ewaeh.eyerest;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
@@ -19,6 +22,7 @@ public class FloatingWidgetService extends Service {
     View collapsedView;
     View expandedView;
     WindowManager.LayoutParams params ;
+    BroadcastReceiver mScreenOnReceiver;
     TextView tvTimeLeft;
 
     public FloatingWidgetService() {
@@ -76,7 +80,8 @@ public class FloatingWidgetService extends Service {
                         if (TouchX == event.getRawX() && TouchY == event.getRawY()) {
                             if (expandedView.getVisibility() != View.VISIBLE) {
                                 long nextAlarmTime = Utils.getNextAlarmTime(FloatingWidgetService.this);
-                                String timeLeft = "" + ((nextAlarmTime - System.currentTimeMillis()) / 1000) + " second left";
+                                long secondLeft = Math.max(0, (nextAlarmTime - System.currentTimeMillis()) / 1000);
+                                String timeLeft = "" + secondLeft + " second left";
                                 tvTimeLeft.setText(timeLeft);
                                 expandedView.setVisibility(View.VISIBLE);
                             } else {
@@ -95,6 +100,19 @@ public class FloatingWidgetService extends Service {
                 return false;
             }
         });
+
+        mScreenOnReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.v(Log_Tag, "BroadcastReceiver ACTION_SCREEN_ON");
+                AlarmHelper.cancelLockTriggerAlarm(FloatingWidgetService.this);
+                AlarmHelper.startLockTriggerAlarm(FloatingWidgetService.this);
+            }
+        };
+
+        IntentFilter screenStateFilter = new IntentFilter();
+        screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mScreenOnReceiver, screenStateFilter);
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.PixelFormat;
@@ -57,7 +59,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private Button mCloseButton;
 
     private LockSetting lockSetting;
-    private ScreenOnReceiver mScreenOnReceiver;
+    private BroadcastReceiver mScreenOnReceiver;
     private boolean finishLockCalled;
 
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -200,7 +202,14 @@ public class FullscreenActivity extends AppCompatActivity {
         // cancel any existing alarm
         AlarmHelper.cancelLockTriggerAlarm(this);
 
-        mScreenOnReceiver = new ScreenOnReceiver(this);
+        mScreenOnReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.v(Log_Tag, "BroadcastReceiver ACTION_SCREEN_ON");
+                FullscreenActivity.this.onScreenOn();
+            }
+        };
+
         finishLockCalled = false;
         IntentFilter screenStateFilter = new IntentFilter();
         screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
